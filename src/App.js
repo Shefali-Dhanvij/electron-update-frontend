@@ -26,6 +26,7 @@ function App() {
           setLatestCommitInfo({ commitHash, commitMessage });
           setUpdateAvailable(true);
           setLatestCommitHash(commitHash); // Update the latest commit hash
+          console.log("New update found:", commitHash);
         }
       } catch (error) {
         console.error("Error checking for updates:", error.message);
@@ -48,7 +49,7 @@ function App() {
       {updateAvailable && (
         <div className="update-modal">
           <p>
-            A new update is available!
+            A new update is available!===
             <br />
             Commit: {latestCommitInfo.commitHash}
             <br />
