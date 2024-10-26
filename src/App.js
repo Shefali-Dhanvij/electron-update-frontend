@@ -5,14 +5,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const GITHUB_REPO_URL =
-  "https://api.github.com/repos/Shefali-Dhanvij/electron-update-frontend/commits/main";
+  "https://api.github.com/repos/Shefali-Dhanvij/electron-updater/commits/main";
 
 function App() {
   const [updateAvailable, setUpdateAvailable] = useState(false);
   const [latestCommitInfo, setLatestCommitInfo] = useState({});
+  const [latestCommitHash, setLatestCommitHash] = useState(""); // Store the latest commit hash locally
   const [updateMessage, setUpdateMessage] = useState("");
-
-  console.log("upadte message--", updateMessage);
 
   useEffect(() => {
     const checkForUpdates = async () => {
@@ -22,20 +21,19 @@ function App() {
         const commitHash = latestCommit.sha;
         const commitMessage = latestCommit.commit.message;
 
-        console.log("Latest Commit Hash:", commitHash);
-        console.log("Latest Commit Message:", commitMessage);
-
-        // Logic to determine if an update is available
-        // For demo purposes, we assume there's always an update
-        setLatestCommitInfo({ commitHash, commitMessage });
-        setUpdateAvailable(true);
+        // Check if the commit hash is different from the last checked one
+        if (latestCommitHash !== commitHash) {
+          setLatestCommitInfo({ commitHash, commitMessage });
+          setUpdateAvailable(true);
+          setLatestCommitHash(commitHash); // Update the latest commit hash
+        }
       } catch (error) {
         console.error("Error checking for updates:", error.message);
       }
     };
 
     checkForUpdates();
-  }, []);
+  }, [latestCommitHash]); // Dependency on latestCommitHash to check for new updates
 
   // Handle update confirmation
   const handleUpdateConfirmation = () => {
