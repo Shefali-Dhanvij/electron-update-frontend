@@ -49,7 +49,7 @@ function App() {
       {updateAvailable && (
         <div className="update-modal">
           <p>
-            A new update is available!===
+            A new update is available!!!!!!
             <br />
             Commit: {latestCommitInfo.commitHash}
             <br />
